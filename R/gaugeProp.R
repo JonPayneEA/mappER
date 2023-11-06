@@ -5,12 +5,15 @@
 #' @param coords Coordinates of rain gauges set as a polygon shapefile
 #' @param catchment Catchment shapefile
 #'
+#' @import data.table
+#'
 #' @return Rainfall proportions for each rain gauge
 #' @export
 #'
 #' @examples
 #' #gaugeProp(coords, shape_t)
 gaugeProp <- function(coords, catchment){
+
   voronoi <- teeSun(coords, catchment)
   v_poly <- intersectPoly(voronoi = voronoi,
                       catchment = catchment,
@@ -23,4 +26,3 @@ gaugeProp <- function(coords, catchment){
   class(dt) <- append(class(dt), 'gaugeProp')
   return(dt)
 }
-

@@ -12,35 +12,16 @@
 #' @import data.table
 #'
 #' @examples
-#' getCoords(oundle, yelden, corby)
-#' # getCoords <- function(...){
-#' #   lst <- list(...)
-#' #   coordsLst <- list()
-#' #   for(i in seq_along(lst)){
-#' #     name <- paste(lst[[i]]$Metadata[2,2])
-#' #     lat <- as.numeric(lst[[i]]$Metadata[15,2])
-#' #     long <- as.numeric(lst[[i]]$Metadata[14,2])
-#' #
-#' #     coordsLst[[i]] <- data.table(ID = name, Lat = lat, Long = long)
-#' #   }
-#' #   dt <- rbindlist(coordsLst)
-#' #   projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-#' #   sf <- st_as_sf(x = dt,
-#' #                  coords = c("Long", "Lat"),
-#' #                  crs = st_crs(4326))
-#' #   return(sf)
-#' # }
 #' library(riskyData)
-#' data(bewdley)
-#' data(chesterton)
-#' getCoords(bewdley, chesterton)
-getCoords <- function(...) {
-  UseMethod("getCoords", ...)
-}
-
-#' @rdname getCoords
-#' @export
-getCoords.R6 <- function(...){
+#' data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
+#' data(bettwsYCrwyn)
+#' gcs <- getCoords(crowle,
+#'                  bickley,
+#'                  barnhurst,
+#'                  hollies,
+#'                  ledbury,
+#'                  bettwsYCrwyn)
+getCoords <- function(...){
   lst <- list(...)
   ## Check for correct classes
   classes <- list()
