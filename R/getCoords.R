@@ -10,6 +10,7 @@
 #'
 #' @import R6
 #' @import data.table
+#' @import sf
 #'
 #' @examples
 #' library(riskyData)
@@ -21,6 +22,7 @@
 #'                  hollies,
 #'                  ledbury,
 #'                  bettwsYCrwyn)
+#' gcs
 getCoords <- function(...){
   lst <- list(...)
   ## Check for correct classes

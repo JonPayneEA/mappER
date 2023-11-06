@@ -51,10 +51,7 @@ WISKI metadata associated with each file. Outputs are a shapefile of class SF.</
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getCoords</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># S3 method for R6</span></span>
-<span><span class="fu">getCoords</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">getCoords</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -72,30 +69,28 @@ WISKI metadata associated with each file. Outputs are a shapefile of class SF.</
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">getCoords</span><span class="op">(</span><span class="va">oundle</span>, <span class="va">yelden</span>, <span class="va">corby</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in getCoords(oundle, yelden, corby):</span> object 'oundle' not found</span>
-<span class="r-in"><span><span class="co"># getCoords &lt;- function(...){</span></span></span>
-<span class="r-in"><span><span class="co">#   lst &lt;- list(...)</span></span></span>
-<span class="r-in"><span><span class="co">#   coordsLst &lt;- list()</span></span></span>
-<span class="r-in"><span><span class="co">#   for(i in seq_along(lst)){</span></span></span>
-<span class="r-in"><span><span class="co">#     name &lt;- paste(lst[[i]]$Metadata[2,2])</span></span></span>
-<span class="r-in"><span><span class="co">#     lat &lt;- as.numeric(lst[[i]]$Metadata[15,2])</span></span></span>
-<span class="r-in"><span><span class="co">#     long &lt;- as.numeric(lst[[i]]$Metadata[14,2])</span></span></span>
-<span class="r-in"><span><span class="co">#</span></span></span>
-<span class="r-in"><span><span class="co">#     coordsLst[[i]] &lt;- data.table(ID = name, Lat = lat, Long = long)</span></span></span>
-<span class="r-in"><span><span class="co">#   }</span></span></span>
-<span class="r-in"><span><span class="co">#   dt &lt;- rbindlist(coordsLst)</span></span></span>
-<span class="r-in"><span><span class="co">#   projcrs &lt;- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"</span></span></span>
-<span class="r-in"><span><span class="co">#   sf &lt;- st_as_sf(x = dt,</span></span></span>
-<span class="r-in"><span><span class="co">#                  coords = c("Long", "Lat"),</span></span></span>
-<span class="r-in"><span><span class="co">#                  crs = st_crs(4326))</span></span></span>
-<span class="r-in"><span><span class="co">#   return(sf)</span></span></span>
-<span class="r-in"><span><span class="co"># }</span></span></span>
-<span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jonpayneea.github.io/riskyData/" class="external-link">riskyData</a></span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bewdley</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">chesterton</span><span class="op">)</span></span></span>
-<span class="r-in"><span><span class="fu">getCoords</span><span class="op">(</span><span class="va">bewdley</span>, <span class="va">chesterton</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in data.table(ID = name, Lat = lat, Long = long):</span> could not find function "data.table"</span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jonpayneea.github.io/riskyData/" class="external-link">riskyData</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">crowle</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bickley</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">barnhurst</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">hollies</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ledbury</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bettwsYCrwyn</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gcs</span> <span class="op">&lt;-</span> <span class="fu">getCoords</span><span class="op">(</span><span class="va">crowle</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">bickley</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">barnhurst</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">hollies</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">ledbury</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">bettwsYCrwyn</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">gcs</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Simple feature collection with 6 features and 4 fields</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geometry type: POINT</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Dimension:     XY</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Bounding box:  xmin: -3.172591 ymin: 52.0317 xmax: -2.097173 ymax: 52.7993</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Geodetic CRS:  WGS 84</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>      stationName  WISKI Easting Northing                   geometry</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1         Crowle 457592  393455   255757     POINT (-2.097173 52.2)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2        Bickley 445031  363130   271330 POINT (-2.542565 52.33879)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3      Barnhurst 091266  389910   301620  POINT (-2.15044 52.61225)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4        Hollies 091862  381586   322452  POINT (-2.274545 52.7993)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5        Ledbury 459793  370233   237123  POINT (-2.435301 52.0317)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6 Bettws-Y-Crwyn 441011  320360   281360  POINT (-3.172591 52.4244)</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

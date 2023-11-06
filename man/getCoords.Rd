@@ -26,4 +26,5 @@ gcs <- getCoords(crowle,
                  hollies,
                  ledbury,
                  bettwsYCrwyn)
+gcs
 }
