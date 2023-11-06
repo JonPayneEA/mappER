@@ -5,59 +5,63 @@
 #'
 #' @param ... The files you wish to include
 #'
-#' @return The site name and coordinates for a site
+#' @return The site name and coordinates for a site as a shapefile
 #' @export
 #'
-#' @import sf
-#' @import s2
+#' @import R6
+#' @import data.table
 #'
 #' @examples
 #' getCoords(oundle, yelden, corby)
-getCoords <- function(...){
+#' # getCoords <- function(...){
+#' #   lst <- list(...)
+#' #   coordsLst <- list()
+#' #   for(i in seq_along(lst)){
+#' #     name <- paste(lst[[i]]$Metadata[2,2])
+#' #     lat <- as.numeric(lst[[i]]$Metadata[15,2])
+#' #     long <- as.numeric(lst[[i]]$Metadata[14,2])
+#' #
+#' #     coordsLst[[i]] <- data.table(ID = name, Lat = lat, Long = long)
+#' #   }
+#' #   dt <- rbindlist(coordsLst)
+#' #   projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+#' #   sf <- st_as_sf(x = dt,
+#' #                  coords = c("Long", "Lat"),
+#' #                  crs = st_crs(4326))
+#' #   return(sf)
+#' # }
+#' library(riskyData)
+#' data(bewdley)
+#' data(chesterton)
+#' getCoords(bewdley, chesterton)
+getCoords <- function(...) {
+  UseMethod("getCoords", ...)
+}
+
+#' @rdname getCoords
+#' @export
+getCoords.R6 <- function(...){
   lst <- list(...)
+  ## Check for correct classes
+  classes <- list()
+  for(i in seq_along(lst)){
+    classes[[i]] <- class(lst[[i]])
+  }
+  classes <- unique(unlist(classes, use.names = FALSE))
+  if(any(!classes %in% c("R6", "HydroImport", "HydroAggs"))){
+    stop("Unknown class present in list")}
+
+  ## Extract coordinates
   coordsLst <- list()
   for(i in seq_along(lst)){
-    name <- paste(lst[[i]]$Metadata[2,2])
-    lat <- as.numeric(lst[[i]]$Metadata[15,2])
-    long <- as.numeric(lst[[i]]$Metadata[14,2])
-
-    coordsLst[[i]] <- data.table(ID = name, Lat = lat, Long = long)
+    coordsLst[[i]] <- lst[[i]]$coords()
   }
-  dt <- rbindlist(coordsLst)
+  dt <- data.table::rbindlist(coordsLst)
+
+  ## Convert to shapefile
   projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
-  sf <- st_as_sf(x = dt,
-                 coords = c("Long", "Lat"),
-                 crs = st_crs(4326))
+  sf <- sf::st_as_sf(x = dt,
+                     coords = c("Longitude", "Latitude"),
+                     crs = st_crs(4326))
   return(sf)
 }
-
-#' @title teeSun
-#'
-#' @description Creates a Thiessen/Voronoi polygon shapefile.
-#'
-#' @param x SF file with point data within.
-#' @param catchment Set as null, optional bounding box polygon derived from catchment polygon
-#'
-#' @return A polygon shapefile with Thiessen polygons
-#' @export
-#'
-#' @examples
-#' teeSun(s)
-teeSun <- function(x, catchment = NULL){
-  if('sf' %in% class(x)){
-    if(is.null(catchment)){
-      voronoi <- st_union(x)
-      voronoi <- suppressWarnings(st_voronoi(voronoi))
-      voronoi <- st_collection_extract(voronoi)
-    } else {
-      bbox <- st_bbox(catchment) + c(-0.5, -0.2, 0.5, 0.2)
-      bbox <-  st_as_sfc(bbox)
-      voronoi <- st_union(x)
-      voronoi <- suppressWarnings(st_voronoi(voronoi, envelope = bbox))
-      voronoi <- st_collection_extract(voronoi)
-    }
-    return(voronoi)
-  }
-  stop('This function only works with data of class type "sf"')
-}
-

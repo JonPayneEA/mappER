@@ -2,15 +2,18 @@
 % Please edit documentation in R/getCoords.R
 \name{getCoords}
 \alias{getCoords}
+\alias{getCoords.R6}
 \title{getCoords}
 \usage{
 getCoords(...)
+
+\method{getCoords}{R6}(...)
 }
 \arguments{
 \item{...}{The files you wish to include}
 }
 \value{
-The site name and coordinates for a site
+The site name and coordinates for a site as a shapefile
 }
 \description{
 This extracts the site name, Latitude, and Longitude data from the imported
@@ -18,4 +21,25 @@ WISKI metadata associated with each file. Outputs are a shapefile of class SF.
 }
 \examples{
 getCoords(oundle, yelden, corby)
+# getCoords <- function(...){
+#   lst <- list(...)
+#   coordsLst <- list()
+#   for(i in seq_along(lst)){
+#     name <- paste(lst[[i]]$Metadata[2,2])
+#     lat <- as.numeric(lst[[i]]$Metadata[15,2])
+#     long <- as.numeric(lst[[i]]$Metadata[14,2])
+#
+#     coordsLst[[i]] <- data.table(ID = name, Lat = lat, Long = long)
+#   }
+#   dt <- rbindlist(coordsLst)
+#   projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+#   sf <- st_as_sf(x = dt,
+#                  coords = c("Long", "Lat"),
+#                  crs = st_crs(4326))
+#   return(sf)
+# }
+library(riskyData)
+data(bewdley)
+data(chesterton)
+getCoords(bewdley, chesterton)
 }
