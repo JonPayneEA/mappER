@@ -5,7 +5,7 @@
 #'
 #' @param ... The files you wish to include
 #'
-#' @return
+#' @return The site name and coordinates for a site
 #' @export
 #'
 #' @import sf
@@ -38,7 +38,7 @@ getCoords <- function(...){
 #' @param x SF file with point data within.
 #' @param catchment Set as null, optional bounding box polygon derived from catchment polygon
 #'
-#' @return
+#' @return A polygon shapefile with Thiessen polygons
 #' @export
 #'
 #' @examples

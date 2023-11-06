@@ -1,12 +1,12 @@
 #' @title Intersect of polygons
 #'
-#' @description Creates intersected polygons of catchment against voronoi polygons
+#' @description Creates intersected polygons of catchment against Voronoi polygons
 #'
 #' @param voronoi Voronoi/Thiessen polygon
 #' @param catchment Catchment shapefile
 #' @param coords Coordinates of rain gauges set as a polygon shapefile
 #'
-#' @return
+#' @return The calculated intersections of a polygon
 #' @export
 #'
 #' @examples
@@ -21,12 +21,12 @@ intersectPoly <- function(voronoi, catchment, coords){
 
 #' @title teesunPlot
 #'
-#' @description Creates a map of a catchment with Thiessen / Vornoi polyggons overlayed
+#' @description Creates a map of a catchment with Thiessen / Voronoi polyggons overlayed
 #'
 #' @param coords Coordinates of rain gauges set as a polygon shapefile
 #' @param catchment Catchment shapefile
 #'
-#' @return
+#' @return An interactive Thiessen polygon map
 #' @export
 #'
 #' @examples

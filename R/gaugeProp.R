@@ -5,7 +5,7 @@
 #' @param coords Coordinates of rain gauges set as a polygon shapefile
 #' @param catchment Catchment shapefile
 #'
-#' @return
+#' @return Rainfall proportions for each rain gauge
 #' @export
 #'
 #' @examples
