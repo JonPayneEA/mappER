@@ -13,12 +13,15 @@ knitr::opts_chunk$set(
 )
 ```
 
-# mappER
+# mappER <img src="logo.png" align="right" alt="" width="120"/> 
 
 <!-- badges: start -->
-<!-- badges: end -->
+[![License: GNU General Public License](https://img.shields.io/badge/license-GNU General Public License-blue.svg)](https://cran.r-project.org/web/licenses/GNU General Public License)
+[![](https://img.shields.io/github/languages/code-size/JonPayneEA/mappER.svg)](https://github.com/JonPayneEA/mappER)
+[![](https://img.shields.io/github/last-commit/JonPayneEA/mappER.svg)](https://github.com/JonPayneEA/mappER/commits/master)
+<!-- badges: start -->
 
-The goal of mappER is to ...
+The `mappER` library is part of the `flode` collection of tools. It provides all the mapping functionality required for developing flood forecast models.
 
 ## Installation
 
@@ -29,27 +32,56 @@ You can install the development version of mappER from [GitHub](https://github.c
 devtools::install_github("JonPayne88/mappER")
 ```
 
-## Example
+## Example 1 - Collating spatial data
 
-This is a basic example which shows you how to solve a common problem:
+Datasets of class `HydroImport` or `HydroAggs` derived from the `riskyData` can be compiled into a shapefile.
 
-```{r example}
+```{r getCoords}
 library(mappER)
-## basic example code
+library(riskyData)
+data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
+data(bettwsYCrwyn)
+gcs <- getCoords(crowle,
+                 bickley,
+                 barnhurst,
+                 hollies,
+                 ledbury,
+                 bettwsYCrwyn)
+gcs
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+These can be integrated into interactive plots with leaflet.
 
-```{r cars}
-summary(cars)
+Example 2 - Thiessen polygons and calculate catchment Proportions
+
+```{r}
+# Import catchment polygon
+data("bewdCatch")
+
+# Calculate Voronoi/Thiessen polygon
+bewdTeeSun <- teeSun(gaugeCoords = gcs, catchment = bewdCatch)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
-
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
+```{r, echo = FALSE}
+par(mfrow = c(2,1))
+plot(bewdCatch, main = "Bewdley subcatchment")
+plot(bewdTeeSun, main = "Bewdley Thiessen polygons")
 ```
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+Intersect the catchment polygon with the Thiessen polygons;
+
+```{r}
+int <- intersectPoly(coords = gcs,
+                     voronoi = bewdTeeSun,
+                     catchment = bewdCatch)
+plot(int, max.plot = 1, main = "Intersected catchment polygon")
+```
+
+From this we can calculate the gauge proportions with the `gaugeProp()` function;
+
+```{r}
+gaugeProp(gcs, bewdCatch)
+```
+
+These can then be inserted into rain gauge catchment averaging equations.
+

@@ -4,6 +4,12 @@
     <loc>https://jonpayneea.github.io/mappER/404.html</loc>
   </url>
   <url>
+    <loc>https://jonpayneea.github.io/mappER/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jonpayneea.github.io/mappER/articles/mappER-Thiessen.html</loc>
+  </url>
+  <url>
     <loc>https://jonpayneea.github.io/mappER/authors.html</loc>
   </url>
   <url>
@@ -26,6 +32,9 @@
   </url>
   <url>
     <loc>https://jonpayneea.github.io/mappER/reference/loadCatchment.html</loc>
+  </url>
+  <url>
+    <loc>https://jonpayneea.github.io/mappER/reference/pipe.html</loc>
   </url>
   <url>
     <loc>https://jonpayneea.github.io/mappER/reference/teeSun.html</loc>

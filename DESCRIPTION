@@ -16,3 +16,9 @@ URL: https://jonpayneea.github.io/mappER/, https://github.com/JonPayneEA/mappER
 Depends: 
     R (>= 2.10)
 LazyData: true
+Imports: 
+    magrittr
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr

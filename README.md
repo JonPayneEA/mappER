@@ -1,12 +1,19 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# mappER
+# mappER <img src="logo.png" align="right" alt="" width="120"/>
 
 <!-- badges: start -->
-<!-- badges: end -->
 
-The goal of mappER is to …
+[![License: GNU General Public
+License](https://img.shields.io/badge/license-GNU%20General%20Public%20License-blue.svg)](https://cran.r-project.org/web/licenses/GNU%20General%20Public%20License)
+[![](https://img.shields.io/github/languages/code-size/JonPayneEA/mappER.svg)](https://github.com/JonPayneEA/mappER)
+[![](https://img.shields.io/github/last-commit/JonPayneEA/mappER.svg)](https://github.com/JonPayneEA/mappER/commits/master)
+<!-- badges: start -->
+
+The `mappER` library is part of the `flode` collection of tools. It
+provides all the mapping functionality required for developing flood
+forecast models.
 
 ## Installation
 
@@ -18,35 +25,73 @@ You can install the development version of mappER from
 devtools::install_github("JonPayne88/mappER")
 ```
 
-## Example
+## Example 1 - Collating spatial data
 
-This is a basic example which shows you how to solve a common problem:
+Datasets of class `HydroImport` or `HydroAggs` derived from the
+`riskyData` can be compiled into a shapefile.
 
 ``` r
 library(mappER)
-## basic example code
+library(riskyData)
+data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
+data(bettwsYCrwyn)
+gcs <- getCoords(crowle,
+                 bickley,
+                 barnhurst,
+                 hollies,
+                 ledbury,
+                 bettwsYCrwyn)
+gcs
+#> Simple feature collection with 6 features and 4 fields
+#> Geometry type: POINT
+#> Dimension:     XY
+#> Bounding box:  xmin: -3.172591 ymin: 52.0317 xmax: -2.097173 ymax: 52.7993
+#> Geodetic CRS:  WGS 84
+#>      stationName  WISKI Easting Northing                   geometry
+#> 1         Crowle 457592  393455   255757     POINT (-2.097173 52.2)
+#> 2        Bickley 445031  363130   271330 POINT (-2.542565 52.33879)
+#> 3      Barnhurst 091266  389910   301620  POINT (-2.15044 52.61225)
+#> 4        Hollies 091862  381586   322452  POINT (-2.274545 52.7993)
+#> 5        Ledbury 459793  370233   237123  POINT (-2.435301 52.0317)
+#> 6 Bettws-Y-Crwyn 441011  320360   281360  POINT (-3.172591 52.4244)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+These can be integrated into interactive plots with leaflet.
+
+Example 2 - Thiessen polygons and calculate catchment Proportions
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+# Import catchment polygon
+data("bewdCatch")
+
+# Calculate Voronoi/Thiessen polygon
+bewdTeeSun <- teeSun(gaugeCoords = gcs, catchment = bewdCatch)
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this.
+<img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" /><img src="man/figures/README-unnamed-chunk-3-2.png" width="100%" />
 
-You can also embed plots, for example:
+Intersect the catchment polygon with the Thiessen polygons;
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+``` r
+int <- intersectPoly(coords = gcs,
+                     voronoi = bewdTeeSun,
+                     catchment = bewdCatch)
+plot(int, max.plot = 1, main = "Intersected catchment polygon")
+```
 
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
+<img src="man/figures/README-unnamed-chunk-4-1.png" width="100%" />
+
+From this we can calculate the gauge proportions with the `gaugeProp()`
+function;
+
+``` r
+gaugeProp(gcs, bewdCatch)
+#>             Gauge  WISKI    Area Proportion
+#> 1: Bettws-Y-Crwyn 441011 2465.18  57.127827
+#> 2:        Hollies 091862 1050.89  24.353217
+#> 3:        Bickley 445031  632.26  14.651928
+#> 4:      Barnhurst 091266  166.87   3.867028
+```
+
+These can then be inserted into rain gauge catchment averaging
+equations.
