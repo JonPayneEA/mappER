@@ -27,7 +27,7 @@
 gaugeProp <- function(coords, catchment){
 
   voronoi <- teeSun(coords, catchment)
-  vpoly <- intersectPoly(voronoi = voronoi,
+  vPoly <- intersectPoly(voronoi = voronoi,
                       catchment = catchment,
                       coords = coords)
   names(vPoly)[1] <- 'ID'
