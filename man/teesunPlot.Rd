@@ -15,12 +15,16 @@ teeSunPlot(
 \item{gaugeCoords}{Coordinates of rain gauges set as a polygon shapefile}
 
 \item{intersectPoly}{Catchment shapefile}
+
+\item{polyCol}{Set colours for the polygons}
+
+\item{pointCol}{Set colour for the points}
 }
 \value{
 An interactive Thiessen polygon map
 }
 \description{
-Creates a map of a catchment with Thiessen / Voronoi polyggons overlayed
+Creates a map of a catchment with Thiessen / Voronoi polygons overlayed
 }
 \examples{
 library(riskyData)

@@ -1,9 +1,11 @@
 #' @title teesunPlot
 #'
-#' @description Creates a map of a catchment with Thiessen / Voronoi polyggons overlayed
+#' @description Creates a map of a catchment with Thiessen / Voronoi polygons overlayed
 #'
 #' @param gaugeCoords Coordinates of rain gauges set as a polygon shapefile
 #' @param intersectPoly Catchment shapefile
+#' @param polyCol Set colours for the polygons
+#' @param pointCol Set colour for the points
 #'
 #' @return An interactive Thiessen polygon map
 #' @export

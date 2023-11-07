@@ -30,11 +30,11 @@ gaugeProp <- function(coords, catchment){
   vpoly <- intersectPoly(voronoi = voronoi,
                       catchment = catchment,
                       coords = coords)
-  names(vpoly)[1] <- 'ID'
-  area <- round(as.numeric(st_area(v_poly)/1000000,2), 2) #! calculates in km^2
+  names(vPoly)[1] <- 'ID'
+  area <- round(as.numeric(st_area(vPoly)/1000000,2), 2) #! calculates in km^2
   total <- sum(area)
   prop <- (area/total) * 100 # Percentage area
-  dt <- data.table(Gauge = vpoly$ID, WISKI = vpoly$WISKI, Area = area, Proportion = prop)
+  dt <- data.table(Gauge = vPoly$ID, WISKI = vPoly$WISKI, Area = area, Proportion = prop)
   class(dt) <- append(class(dt), 'gaugeProp')
   return(dt)
 }
