@@ -26,6 +26,7 @@
 #' int <- intersectPoly(coords = gcs,
 #'                      voronoi = bewdTeeSun,
 #'                      catchment = bewdCatch)
+#' int
 intersectPoly <- function(voronoi, catchment, coords){
   ## Simplify geometry
   cast <- st_cast(voronoi)

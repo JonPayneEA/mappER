@@ -27,8 +27,9 @@
 #' int <- intersectPoly(coords = gcs,
 #'                      voronoi = bewdTeeSun,
 #'                      catchment = bewdCatch)
-#' teeSunPlot <- teeSunPlot(gaugeCoords = gcs,
+#' vPlot <- teeSunPlot(gaugeCoords = gcs,
 #'                          intersectPoly = int)
+#' vPlot
 teeSunPlot <- function(gaugeCoords, intersectPoly, polyCol = c("green", "yellow", "red"), pointCol = "orangered"){
   ## Set the colour pallete
   colors <- colorFactor(palette = polyCol,
