@@ -40,7 +40,7 @@ teeSun <- function(gaugeCoords, catchment = NULL){
     } else {
       bbox <- st_bbox(catchment) + c(-0.5, -0.2, 0.5, 0.2)
       bbox <-  st_as_sfc(bbox)
-      voronoi <- st_union(x)
+      voronoi <- st_union(gaugeCoords)
       voronoi <- suppressWarnings(st_voronoi(voronoi, envelope = bbox))
       voronoi <- st_collection_extract(voronoi)
     }
