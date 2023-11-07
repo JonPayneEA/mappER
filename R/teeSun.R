@@ -2,21 +2,37 @@
 #'
 #' @description Creates a Thiessen/Voronoi polygon shapefile.
 #'
-#' @param x SF file with point data within.
+#' @param gaugeCoords SF file with point data within.
 #' @param catchment Set as null, optional bounding box polygon derived from catchment polygon
 #'
 #' @return A polygon shapefile with Thiessen polygons
 #' @export
 #'
 #' @examples
-#' teeSun(s)
-teeSun <- function(x, catchment = NULL){
-  if('sf' %in% class(x)){
+#' library(riskyData)
+#' data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
+#' data(bettwsYCrwyn); data(bewdCatch)
+#'
+#' # Obtain gauge coordinates
+#' gcs <- getCoords(crowle,
+#'                  bickley,
+#'                  barnhurst,
+#'                  hollies,
+#'                  ledbury,
+#'                  bettwsYCrwyn)
+#'
+#' bewdTeeSun <- teeSun(gaugeCoords = gcs, catchment = bewdCatch)
+#'
+#' leaflet(bewdTeeSun) %>%
+#'   addTiles() %>%
+#'   addPolygons()
+teeSun <- function(gaugeCoords, catchment = NULL){
+  if('sf' %in% class(gaugeCoords)){
     if(is.null(catchment)){
       ## Combine features
-      voronoi <- st_union(x)
+      voronoi <- st_union(gaugeCoords)
 
-      ## Create Voronoi tesselation
+      ## Create Voronoi tessellation
       voronoi <- suppressWarnings(st_voronoi(voronoi))
 
       ## Split (extract) Voronoi into polygons

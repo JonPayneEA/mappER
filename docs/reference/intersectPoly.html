@@ -38,7 +38,7 @@
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="" class="logo" alt=""><h1>Intersect of polygons</h1>
-      <small class="dont-index">Source: <a href="https://github.com/JonPayneEA/mappER/blob/HEAD/R/teesunPlot.R" class="external-link"><code>R/teesunPlot.R</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/JonPayneEA/mappER/blob/HEAD/R/intersectPoly.R" class="external-link"><code>R/intersectPoly.R</code></a></small>
       <div class="d-none name"><code>intersectPoly.Rd</code></div>
     </div>
 
@@ -74,8 +74,24 @@
 
     <div class="section level2">
     <h2 id="ref-examples">Examples<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co">#intersectPoly(voronoi = teesun(coords), catchment = shapefile, coords = coordinates)</span></span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jonpayneea.github.io/riskyData/" class="external-link">riskyData</a></span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">crowle</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bickley</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">barnhurst</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">hollies</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ledbury</span><span class="op">)</span>;</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bettwsYCrwyn</span><span class="op">)</span>; <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">bewdCatch</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Obtain gauge coordinates</span></span></span>
+<span class="r-in"><span><span class="va">gcs</span> <span class="op">&lt;-</span> <span class="fu"><a href="getCoords.html">getCoords</a></span><span class="op">(</span><span class="va">crowle</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">bickley</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">barnhurst</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">hollies</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">ledbury</span>,</span></span>
+<span class="r-in"><span>                 <span class="va">bettwsYCrwyn</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">bewdTeeSun</span> <span class="op">&lt;-</span> <span class="fu"><a href="teeSun.html">teeSun</a></span><span class="op">(</span>gaugeCoords <span class="op">=</span> <span class="va">gcs</span>, catchment <span class="op">=</span> <span class="va">bewdCatch</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in st_union(x):</span> object 'x' not found</span>
+<span class="r-in"><span><span class="va">int</span> <span class="op">&lt;-</span> <span class="fu">intersectPoly</span><span class="op">(</span>coords <span class="op">=</span> <span class="va">gcs</span>,</span></span>
+<span class="r-in"><span>                     voronoi <span class="op">=</span> <span class="va">bewdTeeSun</span>,</span></span>
+<span class="r-in"><span>                     catchment <span class="op">=</span> <span class="va">bewdCatch</span><span class="op">)</span></span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in st_cast(voronoi):</span> object 'bewdTeeSun' not found</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>

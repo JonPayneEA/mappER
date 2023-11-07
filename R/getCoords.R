@@ -8,8 +8,7 @@
 #' @return The site name and coordinates for a site as a shapefile
 #' @export
 #'
-#' @import R6
-#' @import data.table
+#' @import riskyData
 #' @import sf
 #'
 #' @examples
@@ -23,6 +22,17 @@
 #'                  ledbury,
 #'                  bettwsYCrwyn)
 #' gcs
+#'
+#' leaflet(gcs) %>%
+#'   addTiles() %>%
+#'   addCircleMarkers(color = "orangered",
+#'                    radius = 6,
+#'                    fillOpacity = 0.8,
+#'                    stroke = "black",
+#'                    label = ~stationName,
+#'                    labelOptions = labelOptions(permanent = TRUE,
+#'                                                noHide = TRUE,
+#'                                                direction = "bottom"))
 getCoords <- function(...){
   lst <- list(...)
   ## Check for correct classes

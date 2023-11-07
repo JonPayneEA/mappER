@@ -27,4 +27,15 @@ gcs <- getCoords(crowle,
                  ledbury,
                  bettwsYCrwyn)
 gcs
+
+leaflet(gcs) \%>\%
+  addTiles() \%>\%
+  addCircleMarkers(color = "orangered",
+                   radius = 6,
+                   fillOpacity = 0.8,
+                   stroke = "black",
+                   label = ~stationName,
+                   labelOptions = labelOptions(permanent = TRUE,
+                                               noHide = TRUE,
+                                               direction = "bottom"))
 }

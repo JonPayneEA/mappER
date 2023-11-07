@@ -18,5 +18,17 @@ Rainfall proportions for each rain gauge
 Calculates the the proportion of catchment that the gauge occupies using Thiessen / Voronoi polygons
 }
 \examples{
-#gaugeProp(coords, shape_t)
+library(riskyData)
+data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
+data(bettwsYCrwyn); data(bewdCatch)
+
+# Obtain gauge coordinates
+gcs <- getCoords(crowle,
+                 bickley,
+                 barnhurst,
+                 hollies,
+                 ledbury,
+                 bettwsYCrwyn)
+
+gaugeProp(gcs, bewdCatch)
 }

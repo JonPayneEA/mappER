@@ -4,10 +4,10 @@
 \alias{teeSun}
 \title{teeSun}
 \usage{
-teeSun(x, catchment = NULL)
+teeSun(gaugeCoords, catchment = NULL)
 }
 \arguments{
-\item{x}{SF file with point data within.}
+\item{gaugeCoords}{SF file with point data within.}
 
 \item{catchment}{Set as null, optional bounding box polygon derived from catchment polygon}
 }
@@ -18,5 +18,21 @@ A polygon shapefile with Thiessen polygons
 Creates a Thiessen/Voronoi polygon shapefile.
 }
 \examples{
-teeSun(s)
+library(riskyData)
+data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
+data(bettwsYCrwyn); data(bewdCatch)
+
+# Obtain gauge coordinates
+gcs <- getCoords(crowle,
+                 bickley,
+                 barnhurst,
+                 hollies,
+                 ledbury,
+                 bettwsYCrwyn)
+
+bewdTeeSun <- teeSun(gaugeCoords = gcs, catchment = bewdCatch)
+
+leaflet(bewdTeeSun) \%>\%
+  addTiles() \%>\%
+  addPolygons()
 }

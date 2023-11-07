@@ -11,18 +11,32 @@
 #' @export
 #'
 #' @examples
-#' #gaugeProp(coords, shape_t)
+#' library(riskyData)
+#' data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
+#' data(bettwsYCrwyn); data(bewdCatch)
+#'
+#' # Obtain gauge coordinates
+#' gcs <- getCoords(crowle,
+#'                  bickley,
+#'                  barnhurst,
+#'                  hollies,
+#'                  ledbury,
+#'                  bettwsYCrwyn)
+#'
+#' gaugeProp(gcs, bewdCatch)
 gaugeProp <- function(coords, catchment){
 
   voronoi <- teeSun(coords, catchment)
-  v_poly <- intersectPoly(voronoi = voronoi,
+  vpoly <- intersectPoly(voronoi = voronoi,
                       catchment = catchment,
                       coords = coords)
-  names(v_poly)[1] <- 'ID'
-  area <- round(as.numeric(st_area(v_poly)/1000000,2)) # calculates in km^2
+  names(vpoly)[1] <- 'ID'
+  area <- round(as.numeric(st_area(v_poly)/1000000,2), 2) #! calculates in km^2
   total <- sum(area)
   prop <- (area/total) * 100 # Percentage area
-  dt <- data.table(Gauge = v_poly$ID, Area = area, Proportion = prop)
+  dt <- data.table(Gauge = vpoly$ID, WISKI = vpoly$WISKI, Area = area, Proportion = prop)
   class(dt) <- append(class(dt), 'gaugeProp')
   return(dt)
 }
+
+# gaugeProp(gcs, catch)
