@@ -1,7 +1,7 @@
 url: https://jonpayneea.github.io/mappER/
 template:
   bootstrap: 5
-  bootswatch: flatly
+  bootswatch: pulse
   bslib:
     pkgdown-nav-height: 100px
   navbar:
