@@ -17,6 +17,10 @@ Depends:
     R (>= 2.10)
 LazyData: true
 Imports: 
+    riskyData,
+    leaflet,
+    sf,
+    data.table,
     magrittr
 Suggests: 
     knitr,
