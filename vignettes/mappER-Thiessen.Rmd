@@ -14,6 +14,158 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Overview
+
+Currently the `mappER` only has the functionality to support Thiessen (Voronoi) 
+polygons. To access this functionality you can load `flode` or mappER directly.
+
 ```{r setup}
 library(mappER)
 ```
+
+```{r flode, eval = FALSE}
+library(flode)
+```
+
+## Loading gauges
+
+The best way to get gauge data into `mappER` is to use the `riskyData` functions
+ such as `loadAPI()`.
+ 
+```{r risky, eval = FALSE}
+ library(riskyData)
+ crowle <- loadAPI(ID = '457592',
+                  measure = 'rainfall',
+                  period = 900, 
+                  type = 'total',
+                  datapoints = 'earliest')
+```
+
+To save time we will use the pre-loaded data from the package;
+
+```{r loadGauges}
+data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury); 
+data(bettwsYCrwyn)
+```
+
+To compile these sites into a spatial dataset we can use the `getCoords()` 
+function;
+
+```{r getCoords}
+gauges <- getCoords(crowle,
+                    bickley,
+                    barnhurst,
+                    hollies,
+                    ledbury,
+                    bettwsYCrwyn)
+gauges
+```
+
+If you wished to plot these data, you can do so using `leaflet`, an open-source 
+JavaScript library for interactive maps.
+
+```{r map1}
+library(leaflet)
+leaflet(gauges) %>%
+  addTiles() %>%
+  addCircleMarkers(color = "orangered",
+                   radius = 6,
+                   fillOpacity = 0.8,
+                   stroke = "black",
+                   label = ~stationName,
+                   labelOptions = labelOptions(permanent = TRUE,
+                                               noHide = TRUE,
+                                               direction = "bottom"))
+```
+
+## Developing the Thiessen plots
+
+A Thiessen polygon is a Voronoi Diagram that is also referred to as the 
+Dirichlet Tessellation. Given a set of points, it defines a region around each 
+point. A Thiessen polygon divides a plane such that each point is enclosed 
+within a polygon and assigns the area to a point in the point set. 
+
+In forecasting we use these to determine gauge proportion. With `mappER` they 
+are incredibly easy to develop. We can use the `teeSun()` function with the 
+above gauge data to develop the tessellation.
+
+```{r teeSun}
+voronoi <- teeSun(gauges)
+```
+
+```{r plot2, echo = FALSE}
+leaflet(gauges) %>%
+  addTiles() %>%
+  addPolygons(data = voronoi,
+              color = "black",
+              fillOpacity = 0.1,
+              weight = 1.5) %>%
+  addCircleMarkers(data = gauges,
+                   color = 'orangered',
+                   radius = 6,
+                   fillOpacity = 0.8,
+                   stroke = 'black',
+                   label = ~stationName,
+                   labelOptions = labelOptions(permanent = TRUE,
+                                               noHide = TRUE,
+                                               direction = "bottom"))
+```
+
+## Intersecting the Thiessen with a catchment
+
+To load a catchment shapefile we can use the `loadCatchment()` funtion.
+
+```{r loadcatch, eval = FALSE}
+loadCatchment(filepath = "c://abcd/efg/hi/Catchment.shp")
+```
+
+```{r catchment, echo = FALSE}
+data("bewdCatch")
+
+leaflet(bewdCatch) %>%
+  addTiles() %>%
+  addPolygons()
+```
+
+Now we have the catchment loaded, it can be intersected by the Thiessen 
+polygons. This can be done using the `intersectPoly()` function.
+
+```{r intersect}
+int <- intersectPoly(coords = gauges,
+                     voronoi = voronoi,
+                     catchment = bewdCatch)
+```
+
+```{r plot3, echo = FALSE}
+colors <- colorFactor(palette = c("blue", "green", "yellow", "red"),
+                      domain = (int$stationName))
+leaflet(int) %>%
+  addTiles() %>%
+  addPolygons(color = colors(int$stationName))
+```
+
+We can obtain more details on the gauges when we use the `gaugeProp()` function,
+ this displays the proportion of catchment that each rain gauge covers. It uses 
+ the intersected polygon as the basis for its measurements. 
+
+```{r gaugeProp, eval = FALSE}
+gaugeProp(int)
+```
+
+```{r gaugeProp2, echo = FALSE}
+gp <- gaugeProp(int)
+
+gp %>%  gt::gt()
+```
+
+These outputs can then be applied in `riskyData` to generate catchment averaged 
+rainfall.
+
+## Putting it all together
+
+To plot all the elements simultaneously we can use the `teeSunPlot()` function;
+
+```{r teeSunPlot}
+teeSunPlot(gaugeCoords = gauges, intersectPoly = int)
+```
+

@@ -9,6 +9,12 @@
 #' @return The calculated intersections of a polygon
 #' @export
 #'
+#' @importFrom sf st_cast
+#' @importFrom sf st_intersection
+#' @importFrom sf st_sf
+#' @importFrom sf st_join
+#' @importFrom sf st_nearest_feature
+#'
 #' @examples
 #' library(riskyData)
 #' data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);
@@ -29,16 +35,16 @@
 #' int
 intersectPoly <- function(voronoi, catchment, coords){
   ## Simplify geometry
-  cast <- st_cast(voronoi)
+  cast <- sf::st_cast(voronoi)
 
   ## Return all non-empty intersections between voronoi and catchment polygon
-  intersect <- st_intersection(cast, catchment)
+  intersect <- sf::st_intersection(cast, catchment)
 
   ## Convert to sf
-  intersect_sf <- st_sf(intersect)
+  intersect_sf <- sf::st_sf(intersect)
 
   ## Join between intersected polygons and raingauge coordinates
-  join <- st_join(intersect_sf, coords, join = st_nearest_feature)
+  join <- sf::st_join(intersect_sf, coords, join = st_nearest_feature)
   return(join)
 }
 

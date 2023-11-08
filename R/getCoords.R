@@ -9,7 +9,8 @@
 #' @export
 #'
 #' @import riskyData
-#' @import sf
+#' @importFrom sf st_as_sf
+#' @importFrom sf st_crs
 #'
 #' @examples
 #' library(riskyData)
@@ -55,6 +56,6 @@ getCoords <- function(...){
   projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
   sf <- sf::st_as_sf(x = dt,
                      coords = c("Longitude", "Latitude"),
-                     crs = st_crs(4326))
+                     crs = sf::st_crs(4326))
   return(sf)
 }

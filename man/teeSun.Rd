@@ -9,7 +9,8 @@ teeSun(gaugeCoords, catchment = NULL)
 \arguments{
 \item{gaugeCoords}{SF file with point data within.}
 
-\item{catchment}{Set as null, optional bounding box polygon derived from catchment polygon}
+\item{catchment}{Set as null, optional bounding box polygon derived from
+catchment polygon which is useful for large catchments}
 }
 \value{
 A polygon shapefile with Thiessen polygons

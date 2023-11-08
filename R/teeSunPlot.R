@@ -10,6 +10,8 @@
 #' @return An interactive Thiessen polygon map
 #' @export
 #'
+#' @import leaflet
+#'
 #' @examples
 #' library(riskyData)
 #' data(crowle); data(bickley); data(barnhurst); data(hollies); data(ledbury);

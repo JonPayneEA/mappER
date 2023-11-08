@@ -4,10 +4,10 @@
 \alias{gaugeProp}
 \title{Gauge proportion}
 \usage{
-gaugeProp(coords, catchment)
+gaugeProp(intersectPoly)
 }
 \arguments{
-\item{coords}{Coordinates of rain gauges set as a polygon shapefile}
+\item{intersectPoly}{Shapefile of the intersected catchment polygon}
 
 \item{catchment}{Catchment shapefile}
 }
@@ -30,5 +30,9 @@ gcs <- getCoords(crowle,
                  ledbury,
                  bettwsYCrwyn)
 
-gaugeProp(gcs, bewdCatch)
+bewdTeeSun <- teeSun(gaugeCoords = gcs, catchment = bewdCatch)
+int <- intersectPoly(coords = gcs,
+                     voronoi = bewdTeeSun,
+                     catchment = bewdCatch)
+gaugeProp(intersectPoly = int)
 }

@@ -2,10 +2,11 @@
 #'
 #' @description Calculates the the proportion of catchment that the gauge occupies using Thiessen / Voronoi polygons
 #'
-#' @param coords Coordinates of rain gauges set as a polygon shapefile
+#' @param intersectPoly Shapefile of the intersected catchment polygon
 #' @param catchment Catchment shapefile
 #'
 #' @import data.table
+#' @importFrom sf st_area
 #'
 #' @return Rainfall proportions for each rain gauge
 #' @export
@@ -23,20 +24,21 @@
 #'                  ledbury,
 #'                  bettwsYCrwyn)
 #'
-#' gaugeProp(gcs, bewdCatch)
-gaugeProp <- function(coords, catchment){
-
-  voronoi <- teeSun(coords, catchment)
-  vPoly <- intersectPoly(voronoi = voronoi,
-                      catchment = catchment,
-                      coords = coords)
-  names(vPoly)[1] <- 'ID'
-  area <- round(as.numeric(st_area(vPoly)/1000000,2), 2) #! calculates in km^2
+#' bewdTeeSun <- teeSun(gaugeCoords = gcs, catchment = bewdCatch)
+#' int <- intersectPoly(coords = gcs,
+#'                      voronoi = bewdTeeSun,
+#'                      catchment = bewdCatch)
+#' gaugeProp(intersectPoly = int)
+gaugeProp <- function(intersectPoly){
+  ## Calculate polygon areas
+  ##! calculates in km^2
+  area <- round(as.numeric(sf::st_area(intersectPoly)/1000000,2), 2)
   total <- sum(area)
   prop <- (area/total) * 100 # Percentage area
-  dt <- data.table(Gauge = vPoly$ID, WISKI = vPoly$WISKI, Area = area, Proportion = prop)
+  dt <- data.table(Station = intersectPoly$stationName,
+                   WISKI = intersectPoly$WISKI,
+                   Area = area,
+                   Proportion = prop)
   class(dt) <- append(class(dt), 'gaugeProp')
   return(dt)
 }
-
-# gaugeProp(gcs, catch)
