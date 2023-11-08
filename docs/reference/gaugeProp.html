@@ -10,7 +10,7 @@
     
     <a class="navbar-brand me-2" href="../index.html">mappER</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.2.0</small>
 
     
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -54,13 +54,13 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gaugeProp</span><span class="op">(</span><span class="va">coords</span>, <span class="va">catchment</span><span class="op">)</span></span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">gaugeProp</span><span class="op">(</span><span class="va">intersectPoly</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
-    <dl><dt>coords</dt>
-<dd><p>Coordinates of rain gauges set as a polygon shapefile</p></dd>
+    <dl><dt>intersectPoly</dt>
+<dd><p>Shapefile of the intersected catchment polygon</p></dd>
 
 
 <dt>catchment</dt>
@@ -88,8 +88,12 @@
 <span class="r-in"><span>                 <span class="va">ledbury</span>,</span></span>
 <span class="r-in"><span>                 <span class="va">bettwsYCrwyn</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
-<span class="r-in"><span><span class="fu">gaugeProp</span><span class="op">(</span><span class="va">gcs</span>, <span class="va">bewdCatch</span><span class="op">)</span></span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>             Gauge  WISKI    Area Proportion</span>
+<span class="r-in"><span><span class="va">bewdTeeSun</span> <span class="op">&lt;-</span> <span class="fu"><a href="teeSun.html">teeSun</a></span><span class="op">(</span>gaugeCoords <span class="op">=</span> <span class="va">gcs</span>, catchment <span class="op">=</span> <span class="va">bewdCatch</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">int</span> <span class="op">&lt;-</span> <span class="fu"><a href="intersectPoly.html">intersectPoly</a></span><span class="op">(</span>coords <span class="op">=</span> <span class="va">gcs</span>,</span></span>
+<span class="r-in"><span>                     voronoi <span class="op">=</span> <span class="va">bewdTeeSun</span>,</span></span>
+<span class="r-in"><span>                     catchment <span class="op">=</span> <span class="va">bewdCatch</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">gaugeProp</span><span class="op">(</span>intersectPoly <span class="op">=</span> <span class="va">int</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>           Station  WISKI    Area Proportion</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1: Bettws-Y-Crwyn 441011 2465.18  57.127827</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2:        Hollies 091862 1050.89  24.353217</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3:        Bickley 445031  632.26  14.651928</span>
