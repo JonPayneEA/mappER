@@ -136,7 +136,9 @@ int <- intersectPoly(coords = gauges,
                      catchment = bewdCatch)
 ```
 
-```{r plot3, echo = FALSE}
+To plot with a custom colour scheme;
+
+```{r plot3}
 colors <- colorFactor(palette = c("blue", "green", "yellow", "red"),
                       domain = (int$stationName))
 leaflet(int) %>%
