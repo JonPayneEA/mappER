@@ -53,9 +53,9 @@ getCoords <- function(...){
   dt <- data.table::rbindlist(coordsLst)
 
   ## Convert to shapefile
-  projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+  # projcrs <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
   sf <- sf::st_as_sf(x = dt,
-                     coords = c("Longitude", "Latitude"),
-                     crs = sf::st_crs(4326))
+                     coords = c("Easting", "Northing"),
+                     crs = sf::st_crs(27700))
   return(sf)
 }

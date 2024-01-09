@@ -18,6 +18,6 @@ loadCatchment <- function(filepath = NULL){
   ## Load catchment
   rawPoly <- sf::st_read(filepath)
   ## Convert to WGS 84 (4326)
-  catchment <- sf::st_transform(rawPoly, 4326)
+  catchment <- sf::st_transform(rawPoly, 27700)
   return(catchment)
 }
