@@ -41,7 +41,7 @@ intersectPoly <- function(voronoi, catchment, coords){
   intersect <- sf::st_intersection(cast, catchment)
 
   ## Convert to sf
-  intersect_sf <- sf::st_sf(intersect)
+  intersect_sf <- sf::st_sf(intersect, crs = sf::st_crs(27700))
 
   ## Join between intersected polygons and raingauge coordinates
   join <- sf::st_join(intersect_sf, coords, join = st_nearest_feature)
