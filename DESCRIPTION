@@ -11,7 +11,7 @@ Description: Provides mapping functionality required for developing flood foreca
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.1
 URL: https://jonpayneea.github.io/mappER/, https://github.com/JonPayneEA/mappER
 Depends: 
     R (>= 2.10)

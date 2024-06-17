@@ -40,6 +40,10 @@ intersectPoly <- function(voronoi, catchment, coords){
   ## Return all non-empty intersections between voronoi and catchment polygon
   intersect <- sf::st_intersection(cast, catchment)
 
+  ## Split multipolygons using the first feature
+  intersect <- sf::st_cast(intersect, "POLYGON", do_split = FALSE)
+
+
   ## Convert to sf
   intersect_sf <- sf::st_sf(intersect, crs = sf::st_crs(27700))
 
