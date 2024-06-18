@@ -3,6 +3,7 @@
 export("%>%")
 export(gaugeProp)
 export(getCoords)
+export(getGaugeSAAR)
 export(intersectPoly)
 export(loadCatchment)
 export(teeSun)
