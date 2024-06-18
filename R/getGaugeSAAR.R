@@ -56,13 +56,16 @@ getGaugeSAAR <- function(gaugeIDs){
                                          Error_1sigma = std(totals)),
                                      by = 'Site']
   ## Generate plotting
-  gaugeSAAR[["Plot"]] <- ggplot(yrTotals, aes(x = hydroYear, y = totals)) +
-    geom_bar(stat = "identity", colour = "black", fill = "#00A33B") +
-    facet_wrap(.~Site) +
+  gaugeSAAR[["Plot"]] <-  ggplot2::ggplot(yrTotals, aes(x = hydroYear,
+                                                        y = totals)) +
+    ggplot2::geom_bar(stat = "identity", colour = "black", fill = "#00A33B") +
+    ggplot2::facet_wrap(.~Site) +
+    ggplot2::ylab("Rainfall (mm)") +
+    ggplot2::xlab("Hydrological Year") +
     ggplot2::ggtitle(label = "Total Rainfall by Hydrological Year",
-                     subtitle = paste("Rainfall data from",
+                     subtitle = paste("Rainfall data from selected rain gauges between",
                                       min(gaugeSAAR[["Raw"]]$hydroYear),
-                                      "to",
+                                      "and",
                                       max(gaugeSAAR[["Raw"]]$hydroYear))) +
     ggplot2::theme(plot.title = element_text(family = "",
                                              face = "bold",
